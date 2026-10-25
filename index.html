@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" data-density="spacious" data-accent="#0078D4">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mark-609 — Developer & Systems Engineer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fluentBg: '#F3F3F3',
+                        fluentCanvas: '#F9F9F9',
+                        fluentCard: '#FFFFFF',
+                        fluentBorder: '#E5E5E5',
+                        fluentMuted: '#616161',
+                        fluentText: '#242424',
+                        accent: 'var(--accent-color, #0078D4)'
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', '-apple-system', 'BlinkMacSystemFont', 'Roboto', 'sans-serif'],
+                        mono: ['Consolas', 'Segoe UI Mono', 'Courier New', 'monospace'],
+                    },
+                    boxShadow: {
+                        'fluent-flyout': '0 8px 16px rgba(0, 0, 0, 0.14), 0 0 2px rgba(0, 0, 0, 0.12)',
+                        'fluent-card': '0 2px 4px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06)',
+                        'fluent-depth': '0 12px 28px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --accent-color: #0078D4;
+            --accent-light: rgba(0, 120, 212, 0.08);
+            --accent-border: rgba(0, 120, 212, 0.25);
+            --bg-body: #F3F3F3;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: #242424;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Acrylic translucent layer */
+        .acrylic-card {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(20px) saturate(125%);
+            -webkit-backdrop-filter: blur(20px) saturate(125%);
+            border: 1px solid rgba(229, 229, 229, 0.85);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03), 0 0 2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.15s cubic-bezier(0.1, 0.9, 0.2, 1), 
+                        box-shadow 0.15s cubic-bezier(0.1, 0.9, 0.2, 1), 
+                        border-color 0.15s ease;
+        }
+
+        .acrylic-card:hover {
+            border-color: rgba(200, 200, 200, 0.9);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Fluent active tab pill indicator */
+        .fluent-pill {
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+        }
+        .fluent-pill.active {
+            background-color: var(--accent-light);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .fluent-pill.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 20%;
+            right: 20%;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Dynamic accent colors for text and backgrounds */
+        .text-accent { color: var(--accent-color); }
+        .bg-accent { background-color: var(--accent-color); }
+        .border-accent { border-color: var(--accent-color); }
+
+        /* Density compact overrides */
+        [data-density="compact"] .density-padding { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        [data-density="compact"] .density-gap { gap: 0.5rem; }
+        [data-density="compact"] .density-card-p { padding: 0.85rem; }
+
+        [data-density="spacious"] .density-padding { padding-top: 1rem; padding-bottom: 1rem; }
+        [data-density="spacious"] .density-gap { gap: 1rem; }
+        [data-density="spacious"] .density-card-p { padding: 1.25rem; }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #F3F3F3; }
+        ::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #A0A0A0; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Top Command & Settings Bar -->
+    <header class="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-[#E5E5E5]">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between text-xs">
+            
+            <!-- Left Branding & Breadcrumb -->
+            <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded flex items-center justify-center font-semibold text-white bg-accent text-[11px] shadow-sm">
+                    m6
+                </div>
+                <div class="flex items-center gap-1.5 font-medium text-[#242424]">
+                    <span>mark-609</span>
+                    <span class="text-[#A0A0A0]">/</span>
+                    <span class="text-[#616161] font-normal">profile</span>
+                </div>
+            </div>
+
+            <!-- Command Bar Quick Trigger -->
+            <button onclick="openCommandPalette()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#F3F3F3] hover:bg-[#EBEBEB] border border-[#E5E5E5] text-[#616161] text-xs font-mono transition-colors">
+                <i class="fa-solid fa-terminal text-[10px]"></i>
+                <span>Command Palette...</span>
+                <kbd class="px-1.5 py-0.5 rounded bg-white border border-[#D0D0D0] text-[10px] text-[#242424]">Ctrl+K</kbd>
+            </button>
+
+            <!-- Right Controls -->
+            <div class="flex items-center gap-2">
+                <button onclick="openCommandPalette()" class="sm:hidden p-2 text-[#616161] hover:text-[#242424]">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button onclick="toggleSettingsPanel()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-[#EBEBEB] text-[#242424] font-medium transition-colors" title="Customize Layout & Theme">
+                    <i class="fa-solid fa-sliders text-xs"></i>
+                    <span class="hidden sm:inline">Settings</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Settings Flyout Menu -->
+    <div id="settingsPanel" class="hidden fixed top-14 right-4 z-40 w-72 acrylic-card rounded-xl shadow-fluent-flyout p-4 text-xs space-y-4">
+        <div class="flex items-center justify-between border-b border-[#E5E5E5] pb-2 font-semibold">
+            <span>Interface Customization</span>
+            <button onclick="toggleSettingsPanel()" class="text-[#616161] hover:text-[#242424]"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- Accent Color Picker -->
+        <div class="space-y-2">
+            <label class="font-medium text-[#616161]">Accent Color</label>
+            <div class="flex items-center gap-2">
+                <button onclick="setAccentColor('#0078D4')" class="w-6 h-6 rounded-full bg-[#0078D4] ring-2 ring-offset-1 ring-[#0078D4]"></button>
+                <button onclick="setAccentColor('#107C41')" class="w-6 h-6 rounded-full bg-[#107C41] hover:scale-105 transition-transform"></button>
+                <button onclick="setAccentColor('#5C2D91')" class="w-6 h-6 rounded-full bg-[#5C2D91] hover:scale-105 transition-transform"></button>
+                <button onclick="setAccentColor('#00838F')" class="w-6 h-6 rounded-full bg-[#00838F] hover:scale-105 transition-transform"></button>
+                <button onclick="setAccentColor('#D13438')" class="w-6 h-6 rounded-full bg-[#D13438] hover:scale-105 transition-transform"></button>
+            </div>
+        </div>
+
+        <!-- Density Layout Toggle -->
+        <div class="space-y-2 pt-2 border-t border-[#E5E5E5]">
+            <label class="font-medium text-[#616161]">Layout Density</label>
+            <div class="grid grid-cols-2 gap-2">
+                <button id="densitySpacious" onclick="setDensity('spacious')" class="px-2.5 py-1.5 rounded border border-[#E5E5E5] bg-white font-medium text-center hover:bg-[#F9F9F9]">Spacious</button>
+                <button id="densityCompact" onclick="setDensity('compact')" class="px-2.5 py-1.5 rounded border border-[#E5E5E5] bg-[#F3F3F3] text-[#616161] text-center hover:bg-[#F9F9F9]">Compact</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
+
+        <!-- PROFILE HERO & IDENTITY -->
+        <section class="acrylic-card rounded-2xl density-card-p p-6 relative overflow-hidden">
+            <!-- Mica Layer Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-white/60 to-transparent pointer-events-none"></div>
+
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                
+                <div class="flex items-start gap-4">
+                    <!-- Profile Avatar Badge -->
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#F3F3F3] to-white border border-[#E5E5E5] flex items-center justify-center shadow-fluent-card shrink-0">
+                        <i class="fa-solid fa-code text-2xl text-accent"></i>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <div class="flex items-center gap-2.5">
+                            <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-[#242424]">mark-609</h1>
+                            <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-mono flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-[#616161]">
+                            Systems Developer & Tooling Architect • Low-level C++, Python Automation & Open Streaming Media
+                        </p>
+                        
+                        <!-- Metadata Badges -->
+                        <div class="flex flex-wrap items-center gap-3 pt-2 text-xs font-mono text-[#616161]">
+                            <span class="flex items-center gap-1"><i class="fa-solid fa-microchip text-accent"></i> MARKson Core</span>
+                            <span>•</span>
+                            <span class="flex items-center gap-1"><i class="fa-solid fa-radio text-emerald-600"></i> IPTV / Radio Specs</span>
+                            <span>•</span>
+                            <span class="flex items-center gap-1"><i class="fa-solid fa-terminal text-purple-600"></i> CLI / Qt Interfaces</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2 sm:self-center shrink-0">
+                    <a href="https://github.com/mark-609" target="_blank" class="px-4 py-2 rounded-lg bg-accent text-white font-medium text-xs shadow-fluent-card hover:opacity-90 transition-opacity flex items-center gap-2">
+                        <i class="fa-brands fa-github text-sm"></i>
+                        <span>GitHub Profile</span>
+                    </a>
+                    <button onclick="copyToClipboard('mark-609')" class="px-3 py-2 rounded-lg bg-white border border-[#E5E5E5] text-[#242424] font-medium text-xs hover:bg-[#F3F3F3] transition-colors flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-regular fa-copy text-xs text-[#616161]"></i>
+                        <span>Copy Handle</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- STATS & SYSTEM METRICS -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="acrylic-card rounded-xl p-4 space-y-1">
+                <div class="text-[11px] font-medium text-[#616161]">PRIMARY LANGUAGES</div>
+                <div class="text-xl font-semibold text-[#242424]">C++ / Python</div>
+                <div class="text-[10px] text-emerald-600 font-mono">100% Native Focus</div>
+            </div>
+            <div class="acrylic-card rounded-xl p-4 space-y-1">
+                <div class="text-[11px] font-medium text-[#616161]">SPECIALIZATION</div>
+                <div class="text-xl font-semibold text-[#242424]">IPTV & Media</div>
+                <div class="text-[10px] text-accent font-mono">Public Stream Specs</div>
+            </div>
+            <div class="acrylic-card rounded-xl p-4 space-y-1">
+                <div class="text-[11px] font-medium text-[#616161]">GUI & ENGINE</div>
+                <div class="text-xl font-semibold text-[#242424]">Qt / Web MIDI</div>
+                <div class="text-[10px] text-purple-600 font-mono">Cross-Platform</div>
+            </div>
+            <div class="acrylic-card rounded-xl p-4 space-y-1">
+                <div class="text-[11px] font-medium text-[#616161]">REPOSITORIES</div>
+                <div class="text-xl font-semibold text-[#242424]">Open Source</div>
+                <div class="text-[10px] text-amber-600 font-mono">Public Repos & Gists</div>
+            </div>
+        </section>
+
+        <!-- PROJECTS & REPOSITORIES SECTION -->
+        <section class="space-y-4">
+            
+            <!-- Filter Pills Bar & Search -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E5E5] pb-3">
+                <!-- Pill Tabs -->
+                <div class="flex items-center gap-1 text-xs font-medium overflow-x-auto pb-1 sm:pb-0">
+                    <button onclick="filterProjects('all', this)" class="fluent-pill active px-3 py-1.5 rounded-md hover:bg-[#EBEBEB] text-[#242424]">All Repositories</button>
+                    <button onclick="filterProjects('python', this)" class="fluent-pill px-3 py-1.5 rounded-md hover:bg-[#EBEBEB] text-[#616161]">Python</button>
+                    <button onclick="filterProjects('html', this)" class="fluent-pill px-3 py-1.5 rounded-md hover:bg-[#EBEBEB] text-[#616161]">IPTV / HTML</button>
+                    <button onclick="filterProjects('js', this)" class="fluent-pill px-3 py-1.5 rounded-md hover:bg-[#EBEBEB] text-[#616161]">JavaScript</button>
+                </div>
+
+                <!-- Instant Search -->
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-[#A0A0A0] text-xs"></i>
+                    <input type="text" id="projectSearch" onkeyup="searchProjects()" placeholder="Search pinned repos..." 
+                           class="w-full pl-8 pr-3 py-1.5 rounded-lg bg-white border border-[#E5E5E5] text-xs focus:outline-none focus:border-accent transition-colors shadow-sm">
+                </div>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 density-gap">
+                
+                <!-- Repo 1: CodeSniper -->
+                <div class="project-card acrylic-card rounded-xl density-card-p p-5 flex flex-col justify-between space-y-4" data-category="python">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <a href="https://github.com/mark-609/CodeSniper" target="_blank" rel="noopener noreferrer" class="font-semibold text-sm text-[#0078D4] hover:underline">
+                                    CodeSniper
+                                </a>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-[#F3F3F3] text-[10px] font-mono text-[#616161] border border-[#E5E5E5]">Public</span>
+                        </div>
+                        <p class="text-xs text-[#616161] leading-relaxed">
+                            Shoots Digits to crack codes up to 20 digits in a top speed of 0,5 ticks per code
+                        </p>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between pt-2 border-t border-[#E5E5E5] text-xs font-mono text-[#616161]">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#3572A5]"></span> Python
+                            </span>
+                            <a href="https://github.com/mark-609/CodeSniper" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline flex items-center gap-1">
+                                Open Repo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Repo 2: IPTV-IPRadio-United-States -->
+                <div class="project-card acrylic-card rounded-xl density-card-p p-5 flex flex-col justify-between space-y-4" data-category="html">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-orange-100 text-orange-700 flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-tv"></i>
+                                </div>
+                                <a href="https://github.com/mark-609/IPTV-IPRadio-United-States" target="_blank" rel="noopener noreferrer" class="font-semibold text-sm text-[#0078D4] hover:underline truncate max-w-[180px]">
+                                    IPTV-IPRadio-United-States
+                                </a>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-[#F3F3F3] text-[10px] font-mono text-[#616161] border border-[#E5E5E5]">Public</span>
+                        </div>
+                        <p class="text-xs text-[#616161] leading-relaxed">
+                            USA Only
+                        </p>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between pt-2 border-t border-[#E5E5E5] text-xs font-mono text-[#616161]">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#e34c26]"></span> HTML
+                            </span>
+                            <a href="https://github.com/mark-609/IPTV-IPRadio-United-States" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline flex items-center gap-1">
+                                Open Repo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Repo 3: IPTV-IPRadio-Netherlands -->
+                <div class="project-card acrylic-card rounded-xl density-card-p p-5 flex flex-col justify-between space-y-4" data-category="html">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-red-100 text-red-700 flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-radio"></i>
+                                </div>
+                                <a href="https://github.com/mark-609/IPTV-IPRadio-Netherlands" target="_blank" rel="noopener noreferrer" class="font-semibold text-sm text-[#0078D4] hover:underline truncate max-w-[180px]">
+                                    IPTV-IPRadio-Netherlands
+                                </a>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-[#F3F3F3] text-[10px] font-mono text-[#616161] border border-[#E5E5E5]">Public</span>
+                        </div>
+                        <p class="text-xs text-[#616161] leading-relaxed">
+                            Netherlands only
+                        </p>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between pt-2 border-t border-[#E5E5E5] text-xs font-mono text-[#616161]">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#e34c26]"></span> HTML
+                            </span>
+                            <a href="https://github.com/mark-609/IPTV-IPRadio-Netherlands" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline flex items-center gap-1">
+                                Open Repo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Repo 4: fnae-2 -->
+                <div class="project-card acrylic-card rounded-xl density-card-p p-5 flex flex-col justify-between space-y-4" data-category="js">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-yellow-100 text-yellow-800 flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-gamepad"></i>
+                                </div>
+                                <a href="https://github.com/mark-609/fnae-2" target="_blank" rel="noopener noreferrer" class="font-semibold text-sm text-[#0078D4] hover:underline">
+                                    fnae-2
+                                </a>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-[#F3F3F3] text-[10px] font-mono text-[#616161] border border-[#E5E5E5]">Public</span>
+                        </div>
+                        <p class="text-xs text-[#616161] leading-relaxed">
+                            Five nights at Epstein's 2
+                        </p>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between pt-2 border-t border-[#E5E5E5] text-xs font-mono text-[#616161]">
+                            <div class="flex items-center gap-3">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#f1e05a]"></span> JavaScript
+                                </span>
+                                <span class="flex items-center gap-1 text-[#616161]">
+                                    <i class="fa-solid fa-code-fork text-[11px]"></i> 2
+                                </span>
+                            </div>
+                            <a href="https://github.com/mark-609/fnae-2" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline flex items-center gap-1">
+                                Open Repo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Repo 5: IPTV-IPRadio-Australia -->
+                <div class="project-card acrylic-card rounded-xl density-card-p p-5 flex flex-col justify-between space-y-4" data-category="html">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-[#0078D4]"></i>
+                                    <i class="fa-solid fa-tower-cell"></i>
+                                </div>
+                                <a href="https://github.com/mark-609/IPTV-IPRadio-Australia" target="_blank" rel="noopener noreferrer" class="font-semibold text-sm text-[#0078D4] hover:underline truncate max-w-[180px]">
+                                    IPTV-IPRadio-Australia
+                                </a>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-[#F3F3F3] text-[10px] font-mono text-[#616161] border border-[#E5E5E5]">Public</span>
+                        </div>
+                        <p class="text-xs text-[#616161] leading-relaxed">
+                            AU Only
+                        </p>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between pt-2 border-t border-[#E5E5E5] text-xs font-mono text-[#616161]">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#e34c26]"></span> HTML
+                            </span>
+                            <a href="https://github.com/mark-609/IPTV-IPRadio-Australia" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline flex items-center gap-1">
+                                Open Repo <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TECHNICAL TOOLBOX & GRID -->
+        <section class="space-y-4">
+            <h2 class="text-base font-semibold text-[#242424] tracking-tight">Technical Stack & Environment</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                
+                <!-- Tool Category 1 -->
+                <div class="acrylic-card rounded-xl p-4 space-y-3">
+                    <div class="flex items-center gap-2 font-semibold text-xs text-[#242424] pb-2 border-b border-[#E5E5E5]">
+                        <i class="fa-solid fa-layer-group text-accent"></i>
+                        <span>Languages & Core</span>
+                    </div>
+                    <ul class="space-y-2 text-xs font-mono text-[#616161]">
+                        <li class="flex justify-between"><span>C++ 17/20</span> <span class="text-[#A0A0A0]">Native</span></li>
+                        <li class="flex justify-between"><span>Python 3.x</span> <span class="text-[#A0A0A0]">Tooling</span></li>
+                        <li class="flex justify-between"><span>JavaScript</span> <span class="text-[#A0A0A0]">Web / MIDI</span></li>
+                        <li class="flex justify-between"><span>Bash / Shell</span> <span class="text-[#A0A0A0]">Scripts</span></li>
+                    </ul>
+                </div>
+
+                <!-- Tool Category 2 -->
+                <div class="acrylic-card rounded-xl p-4 space-y-3">
+                    <div class="flex items-center gap-2 font-semibold text-xs text-[#242424] pb-2 border-b border-[#E5E5E5]">
+                        <i class="fa-solid fa-window-maximize text-purple-600"></i>
+                        <span>Frameworks & APIs</span>
+                    </div>
+                    <ul class="space-y-2 text-xs font-mono text-[#616161]">
+                        <li class="flex justify-between"><span>Qt Framework</span> <span class="text-[#A0A0A0]">GUI</span></li>
+                        <li class="flex justify-between"><span>Web MIDI API</span> <span class="text-[#A0A0A0]">Hardware</span></li>
+                        <li class="flex justify-between"><span>FFmpeg</span> <span class="text-[#A0A0A0]">Media</span></li>
+                        <li class="flex justify-between"><span>CMake</span> <span class="text-[#A0A0A0]">Build System</span></li>
+                    </ul>
+                </div>
+
+                <!-- Tool Category 3 -->
+                <div class="acrylic-card rounded-xl p-4 space-y-3">
+                    <div class="flex items-center gap-2 font-semibold text-xs text-[#242424] pb-2 border-b border-[#E5E5E5]">
+                        <i class="fa-solid fa-sliders text-emerald-600"></i>
+                        <span>Protocols & Specs</span>
+                    </div>
+                    <ul class="space-y-2 text-xs font-mono text-[#616161]">
+                        <li class="flex justify-between"><span>M3U8 / HLS</span> <span class="text-[#A0A0A0]">Streaming</span></li>
+                        <li class="flex justify-between"><span>IPTV Metadata</span> <span class="text-[#A0A0A0]">Tagging</span></li>
+                        <li class="flex justify-between"><span>Git / GitHub</span> <span class="text-[#A0A0A0]">Version Control</span></li>
+                        <li class="flex justify-between"><span>Linux / Win</span> <span class="text-[#A0A0A0]">Environments</span></li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- COMMAND PALETTE MODAL -->
+    <div id="commandPalette" class="hidden fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-start justify-center pt-20 px-4">
+        <div class="w-full max-w-xl acrylic-card rounded-2xl shadow-fluent-depth overflow-hidden space-y-0">
+            
+            <div class="flex items-center px-4 py-3 border-b border-[#E5E5E5] gap-3 bg-white">
+                <i class="fa-solid fa-magnifying-glass text-[#A0A0A0] text-sm"></i>
+                <input type="text" id="cmdInput" onkeyup="filterCommandList()" placeholder="Type a command or search section..." 
+                       class="w-full text-xs font-mono focus:outline-none bg-transparent text-[#242424]">
+                <span class="text-[10px] font-mono text-[#A0A0A0] px-1.5 py-0.5 rounded bg-[#F3F3F3] border border-[#E5E5E5]">ESC</span>
+            </div>
+
+            <div id="cmdList" class="p-2 max-h-64 overflow-y-auto space-y-1 text-xs">
+                <button onclick="executeCmd('github')" class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F3F3F3] text-left text-[#242424]">
+                    <span class="flex items-center gap-2 font-medium"><i class="fa-brands fa-github text-slate-700"></i> Open GitHub Profile</span>
+                    <span class="font-mono text-[10px] text-[#A0A0A0]">External Link</span>
+                </button>
+                <button onclick="executeCmd('python')" class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F3F3F3] text-left text-[#242424]">
+                    <span class="flex items-center gap-2 font-medium"><i class="fa-solid fa-bolt text-blue-600"></i> Filter Python (CodeSniper)</span>
+                    <span class="font-mono text-[10px] text-[#A0A0A0]">Action</span>
+                </button>
+                <button onclick="executeCmd('html')" class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F3F3F3] text-left text-[#242424]">
+                    <span class="flex items-center gap-2 font-medium"><i class="fa-solid fa-tv text-orange-600"></i> Filter IPTV / HTML Repos</span>
+                    <span class="font-mono text-[10px] text-[#A0A0A0]">Action</span>
+                </button>
+                <button onclick="executeCmd('js')" class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F3F3F3] text-left text-[#242424]">
+                    <span class="flex items-center gap-2 font-medium"><i class="fa-solid fa-gamepad text-yellow-600"></i> Filter JavaScript (fnae-2)</span>
+                    <span class="font-mono text-[10px] text-[#A0A0A0]">Action</span>
+                </button>
+                <button onclick="executeCmd('copy')" class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F3F3F3] text-left text-[#242424]">
+                    <span class="flex items-center gap-2 font-medium"><i class="fa-regular fa-copy text-accent"></i> Copy Username</span>
+                    <span class="font-mono text-[10px] text-[#A0A0A0]">Clipboard</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 transition-all duration-200 pointer-events-none flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-[#E5E5E5] text-[#242424] text-xs font-medium shadow-fluent-flyout">
+        <i class="fa-solid fa-check text-emerald-600"></i>
+        <span id="toastMsg">Copied to clipboard</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-[#E5E5E5] py-6 bg-white/50 text-xs text-[#616161]">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <span>mark-609</span>
+                <span>•</span>
+                <span>Fluent Design Profile</span>
+            </div>
+            <div class="flex items-center gap-4 font-mono text-[11px]">
+                <a href="https://github.com/mark-609" target="_blank" class="hover:text-accent transition-colors">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        // 1. Settings & Customization
+        function toggleSettingsPanel() {
+            const panel = document.getElementById('settingsPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        function setAccentColor(hex) {
+            document.documentElement.style.setProperty('--accent-color', hex);
+            document.documentElement.style.setProperty('--accent-light', hex + '14'); // 8% opacity
+            showToast('Accent color updated');
+        }
+
+        function setDensity(density) {
+            document.documentElement.setAttribute('data-density', density);
+            const spaciousBtn = document.getElementById('densitySpacious');
+            const compactBtn = document.getElementById('densityCompact');
+
+            if (density === 'spacious') {
+                spaciousBtn.className = "px-2.5 py-1.5 rounded border border-[#E5E5E5] bg-white font-medium text-center shadow-sm";
+                compactBtn.className = "px-2.5 py-1.5 rounded border border-[#E5E5E5] bg-[#F3F3F3] text-[#616161] text-center hover:bg-[#F9F9F9]";
+            } else {
+                compactBtn.className = "px-2.5 py-1.5 rounded border border-[#E5E5E5] bg-white font-medium text-center shadow-sm";
+                spaciousBtn.className = "px-2.5 py-1.5 rounded border border-[#E5E5E5] bg-[#F3F3F3] text-[#616161] text-center hover:bg-[#F9F9F9]";
+            }
+        }
+
+        // 2. Project Filtering
+        function filterProjects(category, btnElem) {
+            // Update active pill styling
+            document.querySelectorAll('.fluent-pill').forEach(btn => btn.classList.remove('active'));
+            if (btnElem) btnElem.classList.add('active');
+
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchProjects() {
+            const query = document.getElementById('projectSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.project-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        // 3. Command Palette Modal logic
+        function openCommandPalette() {
+            const palette = document.getElementById('commandPalette');
+            palette.classList.remove('hidden');
+            document.getElementById('cmdInput').focus();
+        }
+
+        function closeCommandPalette() {
+            document.getElementById('commandPalette').classList.add('hidden');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                openCommandPalette();
+            }
+            if (e.key === 'Escape') {
+                closeCommandPalette();
+                document.getElementById('settingsPanel').classList.add('hidden');
+            }
+        });
+
+        function filterCommandList() {
+            const query = document.getElementById('cmdInput').value.toLowerCase();
+            const items = document.querySelectorAll('#cmdList button');
+            items.forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        function executeCmd(action) {
+            closeCommandPalette();
+            if (action === 'github') {
+                window.open('https://github.com/mark-609', '_blank');
+            } else if (action === 'python') {
+                const btn = document.querySelectorAll('.fluent-pill')[1];
+                filterProjects('python', btn);
+            } else if (action === 'html') {
+                const btn = document.querySelectorAll('.fluent-pill')[2];
+                filterProjects('html', btn);
+            } else if (action === 'js') {
+                const btn = document.querySelectorAll('.fluent-pill')[3];
+                filterProjects('js', btn);
+            } else if (action === 'copy') {
+                copyToClipboard('mark-609');
+            }
+        }
+
+        // 4. Clipboard & Toast
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showToast(`Copied "${text}" to clipboard`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = message;
+            toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+    </script>
